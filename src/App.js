@@ -69,9 +69,19 @@ export default function Game() {
     }
 
     const moves = history.map((squares, move) => {
+        let col, row;
+        if (move > 0) {
+            const prevSquares = history[move - 1];
+            const index = squares.findIndex((square, i) => square !== prevSquares[i]);
+            col = (index % 3) + 1;
+            row = Math.floor(index / 3) + 1;
+        } else {
+            col = '-';
+            row = '-';
+        }
         let description;
         if (move > 0) {
-            description = 'Go to move #' + move;
+            description = `Go to move #${move} (${col}, ${row})`;
         } else {
             description = 'Go to game start';
         }
@@ -93,6 +103,7 @@ export default function Game() {
         </div>
     );
 }
+
 
 function calculateWinner(squares) {
     const lines = [
